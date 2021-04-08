@@ -63,8 +63,8 @@ function readInput(){
         }else if(type === 'pas' && value >0){
             passive(incType,value,description,type)
         }
-        calcMonth();
     }
+    calcMonth();
 }
 
 //Calculate active amount.
