@@ -1,0 +1,180 @@
+
+::placeholder { /* Most modern browsers support this now. */
+    color: #f15b29;
+ }
+ input[type=number]{
+    border: none;
+    outline: none;
+    color:#f15b29 ;
+    background-color: rgba(255, 255, 255, 0);
+    font-family: Open Sans;
+    font-size: 20px;
+    text-align: center;
+    
+ }
+ *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ main {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 565px 1fr ;
+    
+    
+}
+body{
+    background-image:url('../image.png');
+    background-color: black;
+    background-position: right center;
+    background-size: 40%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: flex-start;
+}
+.home{
+    margin-left: 0px;
+    font-size: 18;
+    width:90px;
+    height:25px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    background-image: linear-gradient(to right, #f15b29 0%, #DD2476  51%, #f15b29  100%)
+}
+button:active { transform: translateY(2px); }
+
+.box1{  
+    align-self:flex-start;
+    justify-self: left;
+    height: 100%;
+    background-color: rgb(15, 15, 15);
+    text-align: center;
+}
+.box2{
+    align-self:flex-start;
+    justify-self: left;
+    margin-left: 100px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+ #firstpara{
+
+    font-family: Open Sans;
+    font-size: 45px;
+    font-weight: bolder;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    height: 45px;
+    padding: 1px;
+    margin: 40;
+    color: rgb(245, 236, 240);
+}
+
+
+#list td, #list th {
+    font-family: Open Sans;
+    border: 1px solid #f15b29;
+    color: rgb(245, 236, 240);
+    padding-top: 2px;
+    padding-bottom: 6px;
+    
+  }
+  
+  #list tr:nth-child(even){background-color: #f2f2f200;}
+  
+  #list tr:hover {background-color: rgba(221, 221, 221, 0);}
+  
+  #list th {
+    padding-top: 2px;
+    padding-bottom: 6px;
+    text-align: left;
+    background-color:none;
+    color:#f15b29 ;
+    font-size: 30px;
+    text-align: center;
+  }
+
+#list td {
+    font-size: 25px;
+    color:#f15b29 ;
+} 
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
+
+.name1{
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  color: inherit;
+  height: 40px;
+  font-family: inherit;
+  font-size: 18px;
+  padding: 12px 15px;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: border 0.3s;
+  width: 100%;
+  outline: none;
+}
+.input{
+
+    padding-left: 25%;
+    padding-top: 15%;
+    
+}
+.bill_amount, .friends {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: #f15b29 !important;
+    color:#f15b29 ; 
+    outline: none;
+    height: 200px;
+    width: 400px;
+    border: 2px solid #f15b29 !important;
+    text-align: center;
+    font-size: 38px !important;
+    box-sizing: border-box;
+
+}
+.bill_amount{
+
+    border-radius: 200px 200px 0 0 ;
+    margin-top: 150px;
+}
+.friends{
+    border-radius: 0 0 200px 200px;
+}
+button{
+    font-size: 28px;
+    font-family: Open Sans;
+    margin-top:50px ;
+    margin-left:92px;
+    border: none;
+    height: 55px;          
+    width: 200px;
+    color: white;
+    cursor: pointer;
+   /* border: 2px solid none; */
+    border-radius: 50px;
+   /* background:linear-gradient(120deg,#e05d06,#e00606,#e4078f,#e4078f,#fa0909,#e05d06); */
+   background-image: linear-gradient(to right,#F05A28,#EC008C,#F05A28);
+}
+
+#adjustBtn{
+    margin-left: auto;
+    margin-bottom:15px ;
+}
+button:hover{
+    color: rgb(0, 0, 0);
+
+}
