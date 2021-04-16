@@ -32,6 +32,14 @@ main {
     height: 100%;
     background-color: rgb(15, 15, 15);
 }
+
+.iconify{
+    color: rgb(255, 255, 255);
+    width: 30px; height: 30px;
+    margin-left: 45%;
+    margin-top: 50px;
+}
+
 .div1 {
     width: 800px;
     height: 150px;
@@ -96,7 +104,7 @@ button{
    /* border: 2px solid none; */
     border-radius: 50px;
    /* background:linear-gradient(120deg,#e05d06,#e00606,#e4078f,#e4078f,#fa0909,#e05d06); */
-   background-image: linear-gradient(to right, #f15b29 0%, #DD2476  51%, #f15b29  100%)
+   background-image: linear-gradient(to right,#F05A28,#EC008C,#F05A28);
  }
 
 button:hover{
