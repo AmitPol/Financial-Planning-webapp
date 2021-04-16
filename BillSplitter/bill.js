@@ -6,6 +6,13 @@ var flagRow = false;
 
 document.getElementById("btn").addEventListener('click',readInput)
 
+document.querySelector('.box2').addEventListener("keypress", function (event) {
+
+    if (event.keyCode == 13) {
+        readInput();
+    }
+});
+
 document.querySelector('.home').addEventListener('click', function() {
     location.href = "../home.html"; 
 })
@@ -29,6 +36,12 @@ function createTable(){
         document.querySelector('.box1').insertAdjacentHTML('beforeend', adjustButton);
         document.querySelector('.box1').insertAdjacentHTML('beforeend', table);
         document.getElementById("adjustBtn").addEventListener('click',adjust)
+        document.querySelector('.box1').addEventListener("keypress", function (event) {
+
+            if (event.keyCode == 13) {
+                adjust();
+            }
+        });
 
     }
 }
