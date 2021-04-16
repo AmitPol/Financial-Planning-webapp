@@ -6,13 +6,16 @@ document.querySelector('.budget__expenses--value').textContent = " ";
 document.querySelector('.budget__expenses--valuepass').textContent = " ";
 changeBackground("#28B9B5");
 
-var activeAmt = 0;   //Total active amount
-var passiveAmt = 0;  //Total passive amount
+var activeAmt = 0;   //Total active amount.
+var passiveAmt = 0;  //Total passive amount.
 
-var expActiveAmt = 0; //Active expense amount
-var expPassAmt = 0;   //Passive expense amount
-var incActiveAmt = 0; //Active income amount
-var incPassAmt = 0;   //Passive income amount
+var totalInc = 0;  //Total income amount.
+var totalExp = 0;  //Total expense amount.
+
+var expActiveAmt = 0; //Active expense amount.
+var expPassAmt = 0;   //Passive expense amount.
+var incActiveAmt = 0; //Active income amount.
+var incPassAmt = 0;   //Passive income amount.
 
 var calculated = 0;
 var target = 0;       //Target amount to achive
@@ -20,6 +23,10 @@ var incType = null;
 var description = " ";
 var value = 0;
 var type = null;
+
+
+document.querySelector('.add__value').addEventListener("keypress", enterBtn)
+document.querySelector('.add__target').addEventListener("keypress", enterBtn)
 
 document.querySelector('.add__btn').addEventListener('click',readInput)
 document.querySelector('.container').addEventListener('click', ctrDeleteitem)
@@ -29,6 +36,13 @@ document.querySelector('.home').addEventListener('click', function() {
     location.href = "../home.html"; 
 })
 
+
+function enterBtn(event) {
+
+    if (event.keyCode == 13) {
+        readInput();
+    }
+}
 //Read Toggle state
 document.querySelector('.add__type').addEventListener('change', function(){
     var selection = document.querySelector('.add__type').value;
@@ -182,21 +196,53 @@ function ctrDeleteitem(event){
 
 //Calculating number of months.
 function calcMonth(){
-    var monthCount;
+    var monthCount = 0;
     activeAmt = incActiveAmt - expActiveAmt;
     passiveAmt = incPassAmt - expPassAmt;
     calculated = activeAmt + passiveAmt;
 
-    if (calculated > 0) {
+    // totalInc = incActiveAmt+incPassAmt;
+    // totalExp = expActiveAmt+ expPassAmt;
+
+   console.log("Active amount"+ activeAmt);
+   console.log("Passive amount"+ passiveAmt);
+   console.log("Active amount total"+ incPassAmt);
+   console.log("Active amount total"+ expPassAmt);
+
+
+
+
+    if (passiveAmt < 0 && activeAmt > 0) {
+        monthCount = Math.ceil((passiveAmt/activeAmt)*-1);
         for(var i = 1 ; calculated < target ; i++){
             calculated += activeAmt;
             monthCount = i+1;
+            //console.log(monthCount2);
+        }
+        //console.log(monthCount1);
+    }
+    else if (calculated > 0) {
+        for(var i = 1 ; calculated < target ; i++){
+            calculated += activeAmt;
+            monthCount = i+1;
+            //console.log(monthCount2);
         }
     }
+
+    //console.log(monthCount1,monthCount2)
+    //month = (monthCount1 + monthCount2);
     document.querySelector('.estMonth').textContent = monthCount;
     updateFields();
 }
 
+// function largePassive(){
+//     //var count;
+//     for(var i = 1;passiveAmt <0 ;i++){
+//         passiveAmt = passiveAmt-activeAmt;
+//         monthCount = i+1;
+//     }
+
+// }
 
 
 
