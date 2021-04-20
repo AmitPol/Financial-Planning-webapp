@@ -17,6 +17,7 @@ document.querySelector('.home').addEventListener('click', function() {
     location.href = "../home.html"; 
 })
 
+
 function readInput(){
     
     amount = Number(document.querySelector('.bill_amount').value);
@@ -32,10 +33,20 @@ function readInput(){
 function createTable(){
     var table = '<div style="overflow-y:auto;"><table id="list"><tr><th id="name">Name</th><th id="amount">Amount</th><th id="percent">%</th></tr></table></div>'
     var adjustButton = '<div ><button id="adjustBtn">ADJUST</button></div>'
+    var infoBox ='<div class="div1">You can input friend name and custom amount that friend is contributing in the table.</div>'
     if (flagTable){
         document.querySelector('.box1').insertAdjacentHTML('beforeend', adjustButton);
         document.querySelector('.box1').insertAdjacentHTML('beforeend', table);
+        document.querySelector('.box2').insertAdjacentHTML('afterbegin', infoBox);
         document.getElementById("adjustBtn").addEventListener('click',adjust)
+
+        document.getElementById("adjustBtn").addEventListener('mouseover',function (){
+            document.querySelector('.div1').style.borderColor = 'darkturquoise';
+        })
+        document.getElementById("adjustBtn").addEventListener('mouseout',function (){
+            document.querySelector('.div1').style.borderColor = '#f15b29';
+        })
+        
         document.querySelector('.box1').addEventListener("keypress", function (event) {
 
             if (event.keyCode == 13) {
@@ -45,6 +56,8 @@ function createTable(){
 
     }
 }
+
+
 function addEntry(amount,friends){
     var html, newHtml;
     var calc = amount/friends;
@@ -75,6 +88,7 @@ function deleteTable(){
     if(flagRow){
         document.getElementById("list").remove();
         document.getElementById("adjustBtn").remove();
+        document.querySelector('.div1').remove();
         count = 1
         flagTable =true;
     }
