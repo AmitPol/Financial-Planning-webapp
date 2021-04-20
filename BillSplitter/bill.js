@@ -33,7 +33,7 @@ function readInput(){
 function createTable(){
     var table = '<div style="overflow-y:auto;"><table id="list"><tr><th id="name">Name</th><th id="amount">Amount</th><th id="percent">%</th></tr></table></div>'
     var adjustButton = '<div ><button id="adjustBtn">ADJUST</button></div>'
-    var infoBox ='<div class="div1">You can input friend name and custom amount that friend is contributing in the table.</div>'
+    var infoBox ='<div class="div1">You can input friend-name and custom amount that friend is contributing in the table adjust the bill.</div>'
     if (flagTable){
         document.querySelector('.box1').insertAdjacentHTML('beforeend', adjustButton);
         document.querySelector('.box1').insertAdjacentHTML('beforeend', table);
@@ -46,7 +46,7 @@ function createTable(){
         document.getElementById("adjustBtn").addEventListener('mouseout',function (){
             document.querySelector('.div1').style.borderColor = '#f15b29';
         })
-        
+
         document.querySelector('.box1').addEventListener("keypress", function (event) {
 
             if (event.keyCode == 13) {
