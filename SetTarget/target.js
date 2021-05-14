@@ -4,7 +4,9 @@ document.querySelector('.budget__income--value').textContent = " ";
 document.querySelector('.budget__income--valuepass').textContent = " ";
 document.querySelector('.budget__expenses--value').textContent = " ";
 document.querySelector('.budget__expenses--valuepass').textContent = " ";
+
 changeBackground("#28B9B5");
+
 
 var activeAmt = 0;   //Total active amount.
 var passiveAmt = 0;  //Total passive amount.
@@ -23,7 +25,39 @@ var incType = null;
 var description = " ";
 var value = 0;
 var type = null;
+var keyCount = 0;
 
+readStorage();
+
+function readStorage(){
+    var split,inc,type,des,val;
+    for(var i= 0;i<50;i++){
+        data = localStorage.getItem("entry"+i);
+        if(data != null){
+            split = data.split('-');
+            inc = split[0];
+            type = split[1];
+            des = split[2];
+            val = Number(split[3]);
+        }else if (data == null){
+            
+            continue;
+        }
+        
+        if(type === 'act' && val >0){
+            active(inc,val,des,type)
+        }else if(type === 'pas' && val >0){
+            passive(inc,val,des,type)
+        }
+        //calcMonth();
+    }
+    
+}
+document.querySelector('.add__target').value = localStorage.getItem('target');
+// document.querySelector('.budget__income--value').textContent = localStorage.getItem('incActiveAmt');
+// document.querySelector('.budget__expenses--value').textContent = localStorage.getItem('expActiveAmt');
+// document.querySelector('.budget__income--valuepass').textContent = localStorage.getItem('incPassAmt');
+// document.querySelector('.budget__expenses--valuepass').textContent = localStorage.getItem('expPassAmt');
 
 document.querySelector('.add__value').addEventListener("keypress", enterBtn)
 document.querySelector('.add__target').addEventListener("keypress", enterBtn)
@@ -38,7 +72,6 @@ document.querySelector('.home').addEventListener('click', function() {
 
 
 function enterBtn(event) {
-
     if (event.keyCode == 13) {
         readInput();
     }
@@ -70,8 +103,12 @@ function readInput(){
     description = document.querySelector('.add__description').value;
     value = Number(document.querySelector('.add__value').value);
     type = document.querySelector('.add__act_pas').value;
+
+    localStorage.setItem('target', target);
     
+
     if(description){
+        writeStorage(incType,type,description,value);
         if(type === 'act' && value >0){
             active(incType,value,description,type)
         }else if(type === 'pas' && value >0){
@@ -93,7 +130,6 @@ function active(incType,value,description,type){
     }
     calcMonth();
     reset();
-    //console.log("active " + activeAmt);
 }
 
 //Calculate passive amount.
@@ -108,7 +144,6 @@ function passive(incType,value,description,type){
     }
     calcMonth();
     reset();
-    //console.log("passive " + passiveAmt);
 }
 
 //Resetting fields.
@@ -173,6 +208,8 @@ function ctrDeleteitem(event){
     valueId = splitId[1];
     actPass = splitId[2];
 
+    clearEntry(typeId,valueId,actPass);
+
     if(typeId==='inc' && actPass =='act'){
         incActiveAmt -= valueId;
 
@@ -201,48 +238,80 @@ function calcMonth(){
     passiveAmt = incPassAmt - expPassAmt;
     calculated = activeAmt + passiveAmt;
 
-    // totalInc = incActiveAmt+incPassAmt;
-    // totalExp = expActiveAmt+ expPassAmt;
-
-   console.log("Active amount"+ activeAmt);
-   console.log("Passive amount"+ passiveAmt);
-   console.log("Active amount total"+ incPassAmt);
-   console.log("Active amount total"+ expPassAmt);
-
-
-
-
     if (passiveAmt < 0 && activeAmt > 0) {
         monthCount = Math.ceil((passiveAmt/activeAmt)*-1);
         for(var i = 1 ; calculated < target ; i++){
             calculated += activeAmt;
             monthCount = i+1;
-            //console.log(monthCount2);
         }
-        //console.log(monthCount1);
     }
     else if (calculated > 0) {
         for(var i = 1 ; calculated < target ; i++){
             calculated += activeAmt;
             monthCount = i+1;
-            //console.log(monthCount2);
         }
     }
-
-    //console.log(monthCount1,monthCount2)
-    //month = (monthCount1 + monthCount2);
+    //console.log(monthCount);
     document.querySelector('.estMonth').textContent = monthCount;
     updateFields();
 }
 
-// function largePassive(){
-//     //var count;
-//     for(var i = 1;passiveAmt <0 ;i++){
-//         passiveAmt = passiveAmt-activeAmt;
-//         monthCount = i+1;
-//     }
 
+function writeStorage(incType,type,description,value){
+    //keyCount = localStorage.getItem('keycount');
+    for(var i = 0; i < 100; i++){
+        check = localStorage.getItem("entry"+i);
+        if (!check){
+            localStorage.setItem('entry'+ i, incType+"-"+type+"-"+description+"-"+value);
+            break;
+        }
+    }
+}
+
+function clearEntry(typeId,valueId,actPass){
+    var split,inc,type,des,val;
+
+    for(var i= 0;i<50;i++){
+        data = localStorage.getItem("entry"+i);
+        if(data != null){
+            split = data.split('-');
+            inc = split[0];
+            type = split[1];
+            des = split[2];
+            val = Number(split[3]);
+
+            if(inc == typeId  && val == valueId){
+                localStorage.removeItem("entry"+i);
+            }
+        }else if (data == null){
+            
+            continue;
+        }
+    }    
+}
+
+// function writeStorage(incType,type,description,value){
+//     keyCount = localStorage.getItem('keycount');
+//     if(keyCount === null){
+//         keyCount = 0;
+//     }
+//     localStorage.setItem('entry'+ keyCount, incType+"-"+type+"-"+description+"-"+value);
+//     keyCount++;
+//     localStorage.setItem('keycount',keyCount);
 // }
+
+
+// console.log(expActiveAmt);
+// //localStorage.setItem('monthCount', monthCount);
+// localStorage.setItem('activeAmt', activeAmt);
+// localStorage.setItem('passiveAmt', passiveAmt);
+// localStorage.setItem('totalInc', totalInc);
+// localStorage.setItem('totalExp', totalExp);
+// localStorage.setItem('expActiveAmt', expActiveAmt);
+// localStorage.setItem('expPassAmt', expPassAmt);
+// localStorage.setItem('incActiveAmt', incActiveAmt);
+// localStorage.setItem('incPassAmt', incPassAmt);
+
 
 
 
