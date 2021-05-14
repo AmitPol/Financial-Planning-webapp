@@ -82,6 +82,8 @@ var budgetController = (function () {
             } else {
                 ID = 0;
             }
+
+            //writeStorage(ID,type,desc,val);
             // console.log('The new ID for this item is: ' + ID);
 
             // create new item based on 'inc' or 'exp' type
@@ -172,12 +174,68 @@ var budgetController = (function () {
             }
             
         },
-        
+        writeStorage: function (type,description,value){
+            //keyCount = localStorage.getItem('keycount');
+            for(var i = 0; i < 100; i++){
+                check = localStorage.getItem("budgetEntry"+i);
+                if (!check){
+                    localStorage.setItem('budgetEntry'+ i, type+"-"+description+"-"+value);
+                    break;
+                }
+            }
+        },
+        // readStorage: function (){
+        //     var split,type,des,val,Item,ID;
+        //     for(var i= 0;i<50;i++){
+        //         data = localStorage.getItem("budgetEntry"+i);
+        //         if(data != null){
+        //             split = data.split('-');
+        //             ID = Number(split[0]);
+        //             type = String(split[1]);
+        //             des = split[2];
+        //             val = Number(split[3]);
+        //         }else if (data == null){
+                    
+        //             continue;
+        //         }
+        //         addItem(type,des,val);
+        //         // // create new item based on 'inc' or 'exp' type
+        //         // if (type == 'exp') {
+        //         //     Item = new Expense(ID, des, val);
+        //         //     data.allItems.exp.push(Item);
+        //         // } else if (type === 'inc') {
+        //         //     Item = new Income(ID, des, val);
+        //         //     //sdata.allItems[inc].push(Item);
+        //         // }
+    
+        //         // // add new exp or inc to the end of the allItems.exp or allItems.inc array
+        //         // //data.allItems[type].push(Item);
+    
+        //         // // return the new item
+        //         // return Item;
+        //     }   
+        // },
+
         testing: function () {
             console.log(data);
         }
 
     }
+    
+    
+
+    // function writeStorage(ID,type,description,value){
+    //     //keyCount = localStorage.getItem('keycount');
+    //     for(var i = 0; i < 100; i++){
+    //         check = localStorage.getItem("budgetEntry"+i);
+    //         if (!check){
+    //             localStorage.setItem('budgetEntry'+ i, ID+"-"+type+"-"+description+"-"+value);
+    //             break;
+    //         }
+    //     }
+    // }
+
+
 
 })();
 
@@ -258,12 +316,12 @@ var UIController = (function () {
             if (type === 'inc') {
                 
                 element = DOMstrings.incomeContainer;
-                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><span class="iconify" data-icon="ion-ios-close-circle-outline" data-inline="false"></span></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="inc-%id%-%val%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><span class="iconify" data-icon="ion-ios-close-circle-outline" data-inline="false"></span></i></button></div></div></div>'
                 
             } else if (type === 'exp') {
                 
                 element = DOMstrings.expenseContainer;
-                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><span class="iconify" data-icon="ion-ios-close-circle-outline" data-inline="false"></span></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="exp-%id%-%val%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><span class="iconify" data-icon="ion-ios-close-circle-outline" data-inline="false"></span></i></button></div></div></div>'
                 
             }
             
@@ -271,6 +329,7 @@ var UIController = (function () {
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
             newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
+            newHtml = newHtml.replace('%val%', obj.value);
             
             // insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);  
@@ -390,7 +449,8 @@ var UIController = (function () {
             document.querySelector(DOMstrings.inputButton).classList.toggle('red');
             
         },
-        
+
+
         getDOMstrings: function () {
             return DOMstrings;
         }
@@ -457,12 +517,14 @@ var controller = (function (budgetCntrl, UICntrl) {
             
             newItem = budgetCntrl.addItem(input.type, input.description, input.value);
 
+            budgetCntrl.writeStorage(input.type, input.description, input.value);// write to local storage.
+
             UICntrl.addListItem(newItem, input.type);
 
             UICntrl.clearFields();
 
             updateBudget();
-            
+
             updateExpPercentages();
 
         }
@@ -472,7 +534,7 @@ var controller = (function (budgetCntrl, UICntrl) {
     
     var ctrlDeleteItem = function(event){
         
-        var itemID, splitID, type, ID;
+        var itemID, splitID, type, ID,val;
         
         // use parentNode to traverse up the DOM and then get the unique #id#
         itemID = event.target.parentNode.parentNode.parentNode.parentNode.id; // target = i.ion-ios-close-outline
@@ -485,9 +547,12 @@ var controller = (function (budgetCntrl, UICntrl) {
             
             type = splitID[0];            
             ID = parseInt(splitID[1]); // use parseInt to convert the string '1' to number 1
+            val = splitID[2];
         }
 
         budgetCntrl.deleteItem(type, ID);
+
+        clearEntry(type,val)
         
 
         UICntrl.deleteListItem(itemID);
@@ -499,7 +564,54 @@ var controller = (function (budgetCntrl, UICntrl) {
         
     };
 
+    function clearEntry(typeId,valueId){
+        var split,type,des,val;
+    
+        for(var i= 0;i<50;i++){
+            data = localStorage.getItem("budgetEntry"+i);
+            if(data != null){
+                split = data.split('-');
+                type = split[0];
+                des = split[1];
+                val = Number(split[2]);
+    
+                if(type == typeId  && val == valueId){
+                    localStorage.removeItem("budgetEntry"+i);
+                }
+            }else if (data == null){
+                
+                continue;
+            }
+        }    
+    }
 
+    readStorage = function (){
+        var split,type,des,val,newItem;
+        for(var i= 0;i<50;i++){
+            data = localStorage.getItem("budgetEntry"+i);
+            if(data != null){
+                split = data.split('-');
+                //ID = Number(split[0]);
+                type = String(split[0]);
+                des = split[1];
+                val = Number(split[2]);
+            }else if (data == null){
+                
+                continue;
+            }
+            newItem = budgetCntrl.addItem(type,des,val);
+
+            UICntrl.addListItem(newItem, type);
+
+            UICntrl.clearFields();
+
+            updateBudget();
+            
+            updateExpPercentages();
+
+        }   
+    };
+    
 
     return {
         init: function () {
@@ -513,6 +625,8 @@ var controller = (function (budgetCntrl, UICntrl) {
                 percentage: -1
             });
             setUpEventListeners();
+            readStorage();
+
         }
     }
 
@@ -521,5 +635,7 @@ var controller = (function (budgetCntrl, UICntrl) {
 })(budgetController, UIController);
 
 
+
 // begin the app or nothing will ever run because the event listeners are in a private function
+
 controller.init();
