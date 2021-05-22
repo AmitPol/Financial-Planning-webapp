@@ -15,6 +15,10 @@ body{
     /* background-color: cornsilk; */
 }
 
+.right { float: right; }
+.red { color: #FF5049 !important; }
+.red-focus:focus { border: 1px solid #FF5049 !important; }
+
 .main{
     display: grid;
     grid-gap: 1rem;
@@ -259,7 +263,7 @@ button:hover{
 
 #box4{
     grid-area: box4;
-    color:cornsilk;
+    color: #28B9B5;
     font-size: 30px;
     /* background-color: darkkhaki; */
     border-radius:4px;
@@ -267,7 +271,7 @@ button:hover{
     margin-left: 400px;
     margin-top: 10px;
     height:600px;
-    border:3px solid  #28B9B5;
+    border:1px solid  #28B9B5;
     border-bottom-color: rgb(0, 0, 0);
 }
 .income {
@@ -279,7 +283,7 @@ button:hover{
 /* ****************************BOX5 PART*************************** */
 #box5{
     grid-area: box5;
-    color:cornsilk;
+    color: #FF5049;
     font-size: 30px;
     /* background-color: darkkhaki; */
     border-radius: 4px;
@@ -287,7 +291,7 @@ button:hover{
     margin-right: 400px;
     margin-top: 10px;
     height:600px;
-    border:3px solid  #FF5049;
+    border:1px solid  #FF5049;
     border-bottom-color: rgb(0, 0, 0);
 }
 .expenses {
@@ -313,15 +317,15 @@ h2 {
 
 .item__description {
     float: left;
-    width: 150px;
     color: rgb(255, 255, 255);
-    
+    font-size: 22px;
 }
 
 .item__value {
     float: left;
-    margin-left: 80px;
+    margin-left: 1px;
     transition: transform 0.3s;
+    font-size: 22px;
 }
 
 /*.item__percentage {
@@ -351,7 +355,7 @@ h2 {
 
 .item__delete {
     float: right;
-    margin-right: 1px;
+    margin-top: -8px;
 }
 
 .item__delete--btn {
