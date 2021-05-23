@@ -51,13 +51,8 @@ function readStorage(){
         }
         //calcMonth();
     }
-    
 }
 document.querySelector('.add__target').value = localStorage.getItem('target');
-// document.querySelector('.budget__income--value').textContent = localStorage.getItem('incActiveAmt');
-// document.querySelector('.budget__expenses--value').textContent = localStorage.getItem('expActiveAmt');
-// document.querySelector('.budget__income--valuepass').textContent = localStorage.getItem('incPassAmt');
-// document.querySelector('.budget__expenses--valuepass').textContent = localStorage.getItem('expPassAmt');
 
 document.querySelector('.add__value').addEventListener("keypress", enterBtn)
 document.querySelector('.add__target').addEventListener("keypress", enterBtn)
@@ -167,7 +162,7 @@ if(type === 'act'){
 
 newHtml = html.replace('%id%',value);
 newHtml = newHtml.replace('%description%',description);
-newHtml = newHtml.replace('%value%', value);
+newHtml = newHtml.replace('%value%', formatNumber(value));
 
 document.querySelector('.income_list').insertAdjacentHTML('beforeend', newHtml);
 }
@@ -184,17 +179,17 @@ if(type === 'act'){
 }
 newHtml = html.replace('%id%',value);
 newHtml = newHtml.replace('%description%',description);
-newHtml = newHtml.replace('%value%', value);
+newHtml = newHtml.replace('%value%', formatNumber(value));
 
 document.querySelector('.expenses_list').insertAdjacentHTML('beforeend', newHtml);
 }
 
 //Update fields.
 function updateFields(){
-    document.querySelector('.budget__income--value').textContent = incActiveAmt;
-    document.querySelector('.budget__expenses--value').textContent = expActiveAmt;
-    document.querySelector('.budget__income--valuepass').textContent = incPassAmt;
-    document.querySelector('.budget__expenses--valuepass').textContent = expPassAmt;
+    document.querySelector('.budget__income--value').textContent = formatNumber(incActiveAmt);
+    document.querySelector('.budget__expenses--value').textContent = formatNumber(expActiveAmt);
+    document.querySelector('.budget__income--valuepass').textContent = formatNumber(incPassAmt);
+    document.querySelector('.budget__expenses--valuepass').textContent = formatNumber(expPassAmt);
     //console.log("activeAmtExp " + expActiveAmt);
     //console.log("passiveAmtExp " + expPassAmt);
 }
@@ -289,6 +284,25 @@ function clearEntry(typeId,valueId,actPass){
         }
     }    
 }
+
+function formatNumber (num) {
+    var numSplit, int, dec;
+
+    num = Math.abs(num); 
+    num = num.toFixed(2); 
+    numSplit = num.split('.');
+    int = numSplit[0];
+
+    if (int.length > 3) {
+        int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+    }
+
+    // find the decimal
+    dec = numSplit[1];
+
+    return int + '.' + dec; 
+
+};
 
 // function writeStorage(incType,type,description,value){
 //     keyCount = localStorage.getItem('keycount');
